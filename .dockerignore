@@ -1,0 +1,22 @@
+Abaikan virtual environment!
+
+venv/
+
+Abaikan folder Git
+
+.git
+.gitignore
+
+Abaikan setting VS Code
+
+.vscode/
+
+Abaikan database lokal (container akan buat sendiri)
+
+*.db
+*.db-journal
+
+Abaikan cache Python
+
+pycache/
+*.pyc
