@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPK Pemilihan Laptop</title>
+    <!-- 1. Muat Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Menambahkan font Inter */
+      body {
+        font-family: "Inter", sans-serif;
+      }
+
+      /* Style untuk slider */
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        background: #3b82f6;
+        cursor: pointer;
+        border-radius: 50%;
+      }
+      input[type="range"]::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        background: #3b82f6;
+        cursor: pointer;
+        border-radius: 50%;
+      }
+
+      /* Style untuk modal (pop-up) */
+      .modal {
+        transition: opacity 0.25s ease;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 text-gray-800 p-4 md:p-8">
+    <!-- Container Utama -->
+    <div class="max-w-6xl mx-auto">
+      <!-- Dilebarkan agar muat -->
+      <header class="text-center mb-8">
+        <h1 class="text-3xl md:text-4xl font-bold text-blue-600">
+          SPK Pemilihan Laptop
+        </h1>
+        <p class="text-lg text-gray-600">Metode Weighted Product (WP)</p>
+      </header>
+
+      <!-- Penjelasan Cara Kerja -->
+      <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+        <h2 class="text-2xl font-semibold mb-3 text-gray-700">Cara Kerja</h2>
+        <p class="text-gray-600 mb-2">
+          <!-- Ditambah margin bawah -->
+          Gunakan slider untuk mengatur prioritas Anda (total bobot harus 1.00).
+          Klik tombol "Rincian" di tabel hasil untuk melihat perhitungan manual
+          setiap laptop.
+        </p>
+        <ul class="list-disc list-inside text-gray-600">
+          <li>
+            <strong>Benefit:</strong> Semakin tinggi nilainya, semakin bagus
+            (Contoh: Skor CPU, RAM).
+          </li>
+          <li>
+            <strong>Cost:</strong> Semakin rendah nilainya, semakin bagus
+            (Contoh: Harga, Bobot Laptop).
+          </li>
+        </ul>
+      </div>
+
+      <!-- Konten Utama: Form (kiri) dan Hasil (kanan) -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Kolom Form Bobot (dibuat lebih kecil) -->
+        <div class="bg-white p-6 rounded-lg shadow-md md:col-span-1">
+          <h2 class="text-2xl font-semibold mb-6 text-center">
+            Atur Bobot Prioritas
+          </h2>
+          <form id="spk-form" class="space-y-6">
+            <!-- Slider Harga -->
+            <div class="form-group">
+              <label
+                for="bobot_harga"
+                class="flex justify-between text-sm font-medium text-gray-700"
+              >
+                <span>Bobot Harga (Cost)</span
+                ><span id="val_harga" class="font-bold text-blue-600"
+                  >0.30</span
+                >
+              </label>
+              <input
+                type="range"
+                id="bobot_harga"
+                min="0"
+                max="1"
+                value="0.30"
+                step="0.01"
+                class="w-full h-2 bg-gray-200 rounded-lg"
+              />
+            </div>
+
+            <!-- Slider CPU -->
+            <div class="form-group">
+              <label
+                for="bobot_cpu"
+                class="flex justify-between text-sm font-medium text-gray-700"
+              >
+                <span>Bobot Skor CPU (Benefit)</span
+                ><span id="val_cpu" class="font-bold text-blue-600">0.25</span>
+              </label>
+              <input
+                type="range"
+                id="bobot_cpu"
+                min="0"
+                max="1"
+                value="0.25"
+                step="0.01"
+                class="w-full h-2 bg-gray-200 rounded-lg"
+              />
+            </div>
+
+            <!-- Slider RAM -->
+            <div class="form-group">
+              <label
+                for="bobot_ram"
+                class="flex justify-between text-sm font-medium text-gray-700"
+              >
+                <span>Bobot RAM (Benefit)</span
+                ><span id="val_ram" class="font-bold text-blue-600">0.15</span>
+              </label>
+              <input
+                type="range"
+                id="bobot_ram"
+                min="0"
+                max="1"
+                value="0.15"
+                step="0.01"
+                class="w-full h-2 bg-gray-200 rounded-lg"
+              />
+            </div>
+
+            <!-- Slider SSD -->
+            <div class="form-group">
+              <label
+                for="bobot_ssd"
+                class="flex justify-between text-sm font-medium text-gray-700"
+              >
+                <span>Bobot SSD (Benefit)</span
+                ><span id="val_ssd" class="font-bold text-blue-600">0.10</span>
+              </label>
+              <input
+                type="range"
+                id="bobot_ssd"
+                min="0"
+                max="1"
+                value="0.10"
+                step="0.01"
+                class="w-full h-2 bg-gray-200 rounded-lg"
+              />
+            </div>
+
+            <!-- Slider Baterai -->
+            <div class="form-group">
+              <label
+                for="bobot_baterai"
+                class="flex justify-between text-sm font-medium text-gray-700"
+              >
+                <span>Bobot Baterai (Benefit)</span
+                ><span id="val_baterai" class="font-bold text-blue-600"
+                  >0.10</span
+                >
+              </label>
+              <input
+                type="range"
+                id="bobot_baterai"
+                min="0"
+                max="1"
+                value="0.10"
+                step="0.01"
+                class="w-full h-2 bg-gray-200 rounded-lg"
+              />
+            </div>
+
+            <!-- Slider Bobot Laptop -->
+            <div class="form-group">
+              <label
+                for="bobot_laptop"
+                class="flex justify-between text-sm font-medium text-gray-700"
+              >
+                <span>Bobot Laptop (Cost)</span
+                ><span id="val_laptop" class="font-bold text-blue-600"
+                  >0.10</span
+                >
+              </label>
+              <input
+                type="range"
+                id="bobot_laptop"
+                min="0"
+                max="1"
+                value="0.10"
+                step="0.01"
+                class="w-full h-2 bg-gray-200 rounded-lg"
+              />
+            </div>
+
+            <!-- Info Total Bobot -->
+            <div class="text-center font-semibold">
+              Total Bobot:
+              <span id="total_bobot" class="text-blue-600">1.00</span>
+              <p id="bobot-warning" class="text-red-500 text-sm h-4"></p>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 transition"
+            >
+              Hitung Peringkat
+            </button>
+          </form>
+        </div>
+
+        <!-- Kolom Hasil Peringkat (dibuat lebih besar) -->
+        <div class="bg-white p-6 rounded-lg shadow-md md:col-span-2">
+          <h2 class="text-2xl font-semibold mb-6 text-center">
+            Hasil Peringkat
+          </h2>
+          <div id="loading-spinner" class="text-center mt-4 hidden">
+            <!-- 'hidden' class dari Tailwind -->
+            <p class="text-blue-600">Menghitung...</p>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full min-w-max">
+              <thead>
+                <tr class="bg-gray-100">
+                  <th class="p-3 text-left font-semibold text-gray-600">
+                    Peringkat
+                  </th>
+                  <th class="p-3 text-left font-semibold text-gray-600">
+                    Nama Laptop
+                  </th>
+                  <th class="p-3 text-left font-semibold text-gray-600">
+                    Skor (Vektor S)
+                  </th>
+                  <th class="p-3 text-left font-semibold text-gray-600">
+                    Aksi
+                  </th>
+                  <!-- Kolom Baru -->
+                </tr>
+              </thead>
+              <tbody id="hasil-body" class="divide-y">
+                <!-- Status awal -->
+                <tr>
+                  <td colspan="4" class="p-4 text-center text-gray-500">
+                    Silakan atur bobot dan klik 'Hitung'
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- ===== MODAL (POP-UP) UNTUK RINCIAN PERHITUNGAN ===== -->
+    <!-- ======================================================= -->
+    <div
+      id="rincian-modal"
+      class="modal fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4 hidden"
+    >
+      <!-- 'hidden' class dari Tailwind -->
+      <div
+        class="bg-white rounded-lg shadow-xl w-full max-w-2xl overflow-hidden"
+      >
+        <!-- Modal Header -->
+        <div class="bg-gray-100 p-4 border-b flex justify-between items-center">
+          <h3 class="text-xl font-semibold" id="modal-title">
+            Rincian Perhitungan
+          </h3>
+          <button
+            id="modal-close-btn-x"
+            class="text-gray-500 hover:text-gray-800"
+          >
+            &times;
+          </button>
+        </div>
+        <!-- Modal Body -->
+        <div class="p-6">
+          <p class="mb-4">
+            Perhitungan skor Vektor S untuk:
+            <strong id="modal-nama-laptop" class="text-blue-600"></strong>
+          </p>
+          <div class="overflow-x-auto">
+            <table class="w-full min-w-max">
+              <thead>
+                <tr class="bg-gray-50">
+                  <th class="p-2 text-left text-sm font-semibold text-gray-600">
+                    Kriteria
+                  </th>
+                  <th class="p-2 text-left text-sm font-semibold text-gray-600">
+                    Rumus (Nilai <sup>Bobot</sup>)
+                  </th>
+                  <th class="p-2 text-left text-sm font-semibold text-gray-600">
+                    Hasil Pangkat
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="modal-table-body" class="divide-y">
+                <!-- Rincian akan diisi oleh JavaScript -->
+              </tbody>
+            </table>
+          </div>
+          <p class="mt-4 font-semibold text-sm">
+            Skor Akhir (Vektor S) = Hasil C1 &times; C2 &times; C3 &times; C4
+            &times; C5 &times; C6 =
+            <strong id="modal-skor-akhir" class="text-blue-600"></strong>
+          </p>
+        </div>
+        <!-- Modal Footer -->
+        <div class="bg-gray-50 p-4 border-t text-right">
+          <button
+            id="modal-close-btn"
+            class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+          >
+            Tutup
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================= -->
+    <!-- ===== JAVASCRIPT UNTUK SEMUA FUNGSI ===== -->
+    <!-- ======================================================= -->
+    <script>
+      // --- Kunci API ---
+      const MY_API_KEY = "RAHASIA-12345-BUATAN-SAYA";
+
+      // --- Elemen Form ---
+      const form = document.getElementById("spk-form");
+      const sliders = [
+        { id: "bobot_harga", valId: "val_harga" },
+        { id: "bobot_cpu", valId: "val_cpu" },
+        { id: "bobot_ram", valId: "val_ram" },
+        { id: "bobot_ssd", valId: "val_ssd" },
+        { id: "bobot_baterai", valId: "val_baterai" },
+        { id: "bobot_laptop", valId: "val_laptop" },
+      ];
+      const totalBobotEl = document.getElementById("total_bobot");
+      const bobotWarningEl = document.getElementById("bobot-warning");
+
+      // --- Elemen Hasil ---
+      const tabelBody = document.getElementById("hasil-body");
+      const loadingSpinner = document.getElementById("loading-spinner");
+
+      // --- Elemen Modal ---
+      const modal = document.getElementById("rincian-modal");
+      const modalNamaLaptop = document.getElementById("modal-nama-laptop");
+      const modalTableBody = document.getElementById("modal-table-body");
+      const modalSkorAkhir = document.getElementById("modal-skor-akhir");
+      const modalCloseBtn = document.getElementById("modal-close-btn");
+      const modalCloseBtnX = document.getElementById("modal-close-btn-x");
+
+      // --- Variabel Global untuk menyimpan data rincian ---
+      // Ini penting agar kita tidak perlu memanggil API lagi saat buka modal
+      let dataRincianCache = {};
+
+      // --- Fungsi untuk update nilai slider & total ---
+      function updateBobotDisplay() {
+        let total = 0;
+        sliders.forEach((slider) => {
+          const input = document.getElementById(slider.id);
+          const valEl = document.getElementById(slider.valId);
+          const value = parseFloat(input.value);
+          valEl.textContent = value.toFixed(2); // Menampilkan nilai slider (cth: 0.30)
+          total += value;
+        });
+
+        totalBobotEl.textContent = total.toFixed(2); // Menampilkan total
+
+        // Validasi total bobot, beri warna merah jika salah
+        if (Math.abs(total - 1.0) > 0.001) {
+          // Toleransi error floating point
+          totalBobotEl.className = "text-red-500"; // Ganti warna jadi merah
+          bobotWarningEl.textContent = "Total bobot harus 1.00!";
+        } else {
+          totalBobotEl.className = "text-blue-600"; // Kembalikan warna jadi biru
+          bobotWarningEl.textContent = ""; // Kosongkan peringatan
+        }
+      }
+
+      // Tambahkan event listener ke semua slider
+      sliders.forEach((slider) => {
+        document
+          .getElementById(slider.id)
+          .addEventListener("input", updateBobotDisplay);
+      });
+
+      // --- Event Listener untuk Tombol Submit "Hitung Peringkat" ---
+      form.addEventListener("submit", function (event) {
+        event.preventDefault(); // Mencegah reload halaman
+
+        // Cek validasi total bobot sebelum kirim
+        const total = parseFloat(totalBobotEl.textContent);
+        if (Math.abs(total - 1.0) > 0.001) {
+          bobotWarningEl.textContent = "Total bobot harus 1.00! Perbaiki dulu.";
+          return; // Berhenti jika bobot salah
+        }
+
+        // Tampilkan status loading
+        loadingSpinner.classList.remove("hidden"); // Tampilkan "Menghitung..."
+        tabelBody.innerHTML =
+          '<tr><td colspan="4" class="p-4 text-center text-gray-500">Memuat hasil...</td></tr>';
+        dataRincianCache = {}; // Kosongkan cache rincian setiap perhitungan baru
+
+        // 1. Kumpulkan data bobot dari slider
+        const bobotData = {};
+        sliders.forEach((slider) => {
+          bobotData[slider.id] = document.getElementById(slider.id).value;
+        });
+
+        // 2. Panggil API (Fetch)
+        fetch("/api/calculate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-API-Key": MY_API_KEY, // Kirim API Key
+          },
+          body: JSON.stringify(bobotData), // Kirim data bobot
+        })
+          .then((response) => {
+            // Jika respon tidak ok (cth: API key salah), lempar error
+            if (!response.ok) {
+              return response.json().then((err) => {
+                throw new Error(err.error || "Respon server error");
+              });
+            }
+            return response.json(); // Ubah respon jadi JSON
+          })
+          .then((data) => {
+            // 3. Tampilkan data ke tabel hasil
+            loadingSpinner.classList.add("hidden"); // Sembunyikan "Menghitung..."
+            tabelBody.innerHTML = ""; // Kosongkan tabel
+
+            if (data.error) {
+              throw new Error(data.error);
+            }
+
+            data.forEach((item) => {
+              // Simpan rincian di cache menggunakan nama laptop sebagai key
+              // Ini agar kita bisa buka modal tanpa panggil API lagi
+              dataRincianCache[item.nama] = {
+                rincian: item.rincian,
+                skor: item.skor,
+              };
+
+              // Highlight peringkat 1, 2, 3
+              let rankClass = "";
+              if (item.peringkat === 1) rankClass = "font-bold text-green-600";
+              else if (item.peringkat === 2)
+                rankClass = "font-semibold text-yellow-600";
+              else if (item.peringkat === 3)
+                rankClass = "font-medium text-orange-500";
+
+              // Tambahkan baris baru ke tabel hasil
+              tabelBody.innerHTML += `
+                        <tr class="${rankClass} hover:bg-gray-50">
+                            <td class="p-3">${item.peringkat}</td>
+                            <td class="p-3">${item.nama}</td>
+                            <td class="p-3">${item.skor.toFixed(6)}</td> 
+                            <td class="p-3">
+                                <!-- Tombol Rincian dengan data-nama untuk mengambil dari cache -->
+                                <button class="rincian-btn bg-gray-200 text-gray-700 px-3 py-1 rounded text-sm hover:bg-gray-300" data-nama="${
+                                  item.nama
+                                }">
+                                    Rincian
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+            });
+          })
+          .catch((error) => {
+            // Tangani jika ada error
+            loadingSpinner.classList.add("hidden");
+            console.error("Error:", error);
+            tabelBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-red-500">${error.message}</td></tr>`;
+          });
+      });
+
+      // --- Event Listener untuk Tombol Rincian (Event Delegation) ---
+      // Kita pasang 1 listener di tabel, bukan 20 listener di tombol
+      tabelBody.addEventListener("click", function (event) {
+        // Cek apakah yang diklik adalah tombol "Rincian"
+        if (event.target.classList.contains("rincian-btn")) {
+          const namaLaptop = event.target.getAttribute("data-nama");
+          const data = dataRincianCache[namaLaptop]; // Ambil data dari cache
+
+          if (data) {
+            // Isi data ke modal
+            modalNamaLaptop.textContent = namaLaptop;
+            modalTableBody.innerHTML = ""; // Kosongkan tabel modal
+
+            // Format angka yang besar agar mudah dibaca (cth: 11.500.000)
+            const formatNilai = (num) => num.toLocaleString("id-ID");
+
+            // Loop untuk mengisi tabel rincian
+            Object.keys(data.rincian).forEach((key) => {
+              const item = data.rincian[key];
+              modalTableBody.innerHTML += `
+                            <tr>
+                                <td class="p-2">${item.nama}</td>
+                                <td class="p-2 text-sm">${formatNilai(
+                                  item.nilai
+                                )} <sup>${item.bobot.toFixed(2)}</sup></td>
+                                <td class="p-2 font-mono">${item.hasil.toFixed(
+                                  6
+                                )}</td>
+                            </tr>
+                        `;
+            });
+
+            modalSkorAkhir.textContent = data.skor.toFixed(6);
+            modal.classList.remove("hidden"); // Tampilkan modal
+          }
+        }
+      });
+
+      // --- Event Listener untuk Menutup Modal ---
+      function closeModal() {
+        modal.classList.add("hidden");
+      }
+      modalCloseBtn.addEventListener("click", closeModal);
+      modalCloseBtnX.addEventListener("click", closeModal);
+
+      // Tutup juga saat klik di luar modal (area gelap)
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) {
+          closeModal();
+        }
+      });
+
+      // Inisialisasi tampilan bobot saat halaman pertama kali dimuat
+      document.addEventListener("DOMContentLoaded", updateBobotDisplay);
+    </script>
+  </body>
+</html>
