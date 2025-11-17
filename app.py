@@ -1,4 +1,5 @@
 import sqlite3
+# Kita TIDAK BUTUH 'os' atau 'sys' di sini
 from flask import Flask, render_template, request, jsonify
 
 # Inisialisasi aplikasi Flask
@@ -9,6 +10,7 @@ API_KEY = "RAHASIA-12345-BUATAN-SAYA"
 
 # Fungsi untuk koneksi ke database
 def get_db_connection():
+    # Cukup 'laptops.db', ini akan 100% bekerja di dalam Docker
     conn = sqlite3.connect('laptops.db')
     conn.row_factory = sqlite3.Row # Mengubah hasil query menjadi dictionary
     return conn
@@ -40,9 +42,10 @@ def calculate_spk():
 
     # 3. Mengambil semua data laptop dari database
     conn = get_db_connection()
+    # Ini akan berhasil karena `database.py` akan membuat tabel 'laptops'
     laptops = conn.execute("SELECT * FROM laptops").fetchall()
     
-    # 4. Proses Perhitungan WP (Metode WP) - INI YANG DIPERBARUI
+    # 4. Proses Perhitungan WP (Metode WP)
     hasil_skor = []
     for laptop in laptops:
         # Hitung setiap komponen pangkat SATU PER SATU
@@ -53,10 +56,8 @@ def calculate_spk():
         c5 = (laptop['baterai'] ** bobot['baterai'])
         c6 = (laptop['bobot_laptop'] ** -bobot['bobot'])
         
-        # Hitung Skor Vektor S (total perkalian)
         skor_s = c1 * c2 * c3 * c4 * c5 * c6
         
-        # Siapkan data rincian UNTUK DIKIRIM KE MODAL (POP-UP)
         rincian = {
             'c1': {'nama': 'Harga', 'nilai': laptop['harga'], 'bobot': -bobot['harga'], 'hasil': c1},
             'c2': {'nama': 'Skor CPU', 'nilai': laptop['cpu_score'], 'bobot': bobot['cpu'], 'hasil': c2},
@@ -69,7 +70,7 @@ def calculate_spk():
         hasil_skor.append({
             "nama": laptop['nama_laptop'],
             "skor": skor_s,
-            "rincian": rincian  # <-- Kita kirim rinciannya juga!
+            "rincian": rincian
         })
 
     # 5. Mengurutkan hasil dari skor tertinggi
@@ -88,4 +89,6 @@ def calculate_spk():
 
 # Menjalankan aplikasi
 if __name__ == '__main__':
+    # Saat di Docker, ini tidak akan terpakai (Gunicorn yang akan jalan)
+    # Tapi ini tetap berguna untuk testing manual (yang tadi gagal)
     app.run(debug=True)
