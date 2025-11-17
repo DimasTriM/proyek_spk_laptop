@@ -101,19 +101,6 @@ Jalankan Server Flask:
 python app.py
 
 Buka browser dan kunjungi: http://localhost:5000
-
-📂 Struktur Proyek
-
-proyek_spk_laptop/
-├── .dockerignore # Mengabaikan file saat Docker build
-├── .gitignore # Mengabaikan file untuk Git (venv, db, pycache)
-├── app.py # Backend server Flask (Koki)
-├── database.py # Script untuk membuat & mengisi laptops.db (Supplier)
-├── Dockerfile # Resep untuk membangun container Docker
-├── requirements.txt # Daftar "bumbu" Python (Flask, Gunicorn)
-├── README.md # Dokumentasi ini
-├── templates/
-│ └── index.html # Tampilan Frontend (Wajah/Menu)
 └── docs/
 └── images/
 ├── screenshot-main.png # Gambar portofolio 1
