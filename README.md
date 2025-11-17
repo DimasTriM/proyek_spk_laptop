@@ -101,7 +101,3 @@ Jalankan Server Flask:
 python app.py
 
 Buka browser dan kunjungi: http://localhost:5000
-└── docs/
-└── images/
-├── screenshot-main.png # Gambar portofolio 1
-└── screenshot-rincian.png # Gambar portofolio 2
