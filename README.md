@@ -1,103 +1,143 @@
-Proyek SPK Pemilihan Laptop (Metode WP)
+# Proyek SPK Pemilihan Laptop (Metode WP)
 
-Pratinjau tampilan UI
+## 🖼️ Pratinjau Tampilan UI
 
-![](docs/images/screenshot-main.png)
+### Tampilan Utama (Peringkat Dinamis)
+![Screenshot Main](docs/images/screenshot-main.png)
 
-Pratinjau Rincian
+### Rincian Perhitungan (Modal)
+![Screenshot Rincian](docs/images/screenshot-rincian.png)
 
-![](docs/images/screenshot-rincian.png)
+---
 
+## 📋 Deskripsi Proyek
 
-Aplikasi web Sistem Pendukung Keputusan (SPK) untuk merekomendasikan laptop terbaik bagi mahasiswa informatika. Aplikasi ini dibangun menggunakan Python (Flask) sebagai backend, JavaScript (Fetch API) sebagai frontend, dan di-container-isasi menggunakan Docker.
+Aplikasi web **Sistem Pendukung Keputusan (SPK)** untuk merekomendasikan laptop terbaik bagi mahasiswa informatika. Aplikasi ini dibangun menggunakan:
 
-Metode SPK yang digunakan adalah Weighted Product (WP).
+• **Backend:** Python (Flask)  
+• **Frontend:** JavaScript (Fetch API)  
+• **Containerization:** Docker  
 
-📸 Tangkapan Layar (Portofolio)
+Metode SPK yang digunakan adalah **Weighted Product (WP)**.
 
-Tampilan antarmuka utama yang modern dan panel rincian perhitungan manual yang transparan.
+---
 
-Tampilan Utama (Peringkat Dinamis)
+## ✨ Fitur Utama
 
-Rincian Perhitungan (Modal)
+• **Peringkat Dinamis:** Pengguna dapat mengatur bobot (prioritas) untuk setiap kriteria secara interaktif menggunakan slider.
 
-✨ Fitur Utama
+• **Perhitungan Transparan:** Tombol "Rincian" di setiap baris hasil menampilkan pop-up modal dengan rincian perhitungan (Nilai ^ Bobot) untuk setiap kriteria.
 
-Peringkat Dinamis: Pengguna dapat mengatur bobot (prioritas) untuk setiap kriteria secara interaktif menggunakan slider.
+• **Frontend Responsif:** Tampilan modern dan responsif dibangun menggunakan Tailwind CSS, nyaman dibuka di desktop maupun mobile.
 
-Perhitungan Transparan: Tombol "Rincian" di setiap baris hasil menampilkan pop-up modal dengan rincian perhitungan (Nilai ^ Bobot) untuk setiap kriteria.
+• **Backend API (Flask):** Backend Flask menyediakan API yang aman untuk perhitungan.
 
-Frontend Responsif: Tampilan modern dan responsif dibangun menggunakan Tailwind CSS, nyaman dibuka di desktop maupun mobile.
+• **Database SQLite:** Data laptop disimpan dalam database SQLite (`laptops.db`) yang dibuat secara otomatis.
 
-Backend API (Flask): Backend Flask menyediakan API yang aman untuk perhitungan.
+• **Otentikasi API Key:** Endpoint API `/api/calculate` dilindungi oleh API Key statis untuk mencegah penyalahgunaan.
 
-Database SQLite: Data laptop disimpan dalam database SQLite (laptops.db) yang dibuat secara otomatis.
+• **Containerisasi Docker:** Seluruh aplikasi (Backend, Database setup, Frontend) dibungkus dalam satu image Docker yang siap dijalankan di mana saja dengan satu perintah.
 
-Otentikasi API Key: Endpoint API /api/calculate dilindungi oleh API Key statis untuk mencegah penyalahgunaan.
+---
 
-Containerisasi Docker: Seluruh aplikasi (Backend, Database setup, Frontend) dibungkus dalam satu image Docker yang siap dijalankan di mana saja dengan satu perintah.
+## 💻 Tumpukan Teknologi (Tech Stack)
 
-💻 Tumpukan Teknologi (Tech Stack)
+• **Backend:** Python 3, Flask, Gunicorn  
+• **Database:** SQLite3  
+• **Frontend:** HTML, JavaScript (Fetch API), Tailwind CSS  
+• **DevOps:** Docker, Docker Compose  
 
-Backend: Python 3, Flask, Gunicorn
+---
 
-Database: SQLite3
+## 🚀 Cara Menjalankan Proyek
 
-Frontend: HTML, JavaScript (Fetch API), Tailwind CSS
+Ada dua cara untuk menjalankan proyek ini. **Metode Docker** adalah yang paling direkomendasikan.
 
-DevOps: Docker, Docker Compose (implied)
+---
 
-🚀 Cara Menjalankan Proyek
-
-Ada dua cara untuk menjalankan proyek ini. Cara Docker adalah yang paling direkomendasikan.
-
-Metode 1: Docker (Cara yang Direkomendasikan)
+### Metode 1: Docker (Direkomendasikan) 🐳
 
 Metode ini akan membangun dan menjalankan aplikasi di dalam container yang terisolasi. Ini adalah cara "produksi".
 
-Pastikan Docker Desktop sudah ter-install dan sedang berjalan.
+**Langkah-langkah:**
 
-Buka terminal (CMD, PowerShell, atau Bash) sebagai Administrator.
+1. Pastikan Docker Desktop sudah ter-install dan sedang berjalan.
 
-Pindah (cd) ke folder proyek ini.
+2. Buka terminal (CMD, PowerShell, atau Bash) sebagai Administrator.
 
-Build Image Docker:
+3. Pindah (`cd`) ke folder proyek ini.
 
-docker build -t spk-laptop-app .
+4. **Build Image Docker:**
+   ```bash
+   docker build -t spk-laptop-app .
+   ```
+   
+   *Jika ada cache lama, gunakan:*
+   ```bash
+   docker build --no-cache -t spk-laptop-app .
+   ```
 
-(Jika ada cache lama, gunakan: docker build --no-cache -t spk-laptop-app .)
+5. **Run Container:**
+   ```bash
+   docker run -p 5000:5000 spk-laptop-app
+   ```
 
-Run Container:
+6. Buka browser dan kunjungi: `http://localhost:5000`
 
-docker run -p 5000:5000 spk-laptop-app
+---
 
-Buka browser dan kunjungi: http://localhost:5000
-
-Metode 2: Manual Lokal (Untuk Development/Debug)
+### Metode 2: Manual Lokal (Development/Debug) 🛠️
 
 Metode ini menjalankan server secara langsung di komputermu menggunakan Python venv.
 
-Buat & Aktifkan Virtual Environment:
+**Langkah-langkah:**
 
-# Buat venv
+1. **Buat & Aktifkan Virtual Environment:**
 
-python -m venv venv
+   ```bash
+   # Buat venv
+   python -m venv venv
+   
+   # Aktifkan venv (Windows)
+   .\venv\Scripts\activate
+   
+   # Aktifkan venv (Linux/Mac)
+   source venv/bin/activate
+   ```
 
-# Aktifkan venv (Windows)
+2. **Install Dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-.\venv\Scripts\activate
+3. **Buat Database (Wajib, 1x saja):**
+   
+   Script ini akan membuat file `laptops.db` dan mengisinya dengan data.
+   ```bash
+   python database.py
+   ```
 
-Install Dependencies:
+4. **Jalankan Server Flask:**
+   ```bash
+   python app.py
+   ```
 
-pip install -r requirements.txt
+5. Buka browser dan kunjungi: `http://localhost:5000`
 
-Buat Database (Wajib, 1x saja):
-Script ini akan membuat file laptops.db dan mengisinya dengan data.
+---
 
-python database.py
+## 📝 Lisensi
 
-Jalankan Server Flask:
+MIT License
 
-python app.py
+---
 
-Buka browser dan kunjungi: http://localhost:5000
+## 👨‍💻 Kontributor
+
+Dibuat dengan ❤️ untuk tugas SPK - Mahasiswa Informatika
+
+---
+
+## 📞 Kontak & Dukungan
+
+Jika ada pertanyaan atau masalah, silakan buka **Issue** di repository ini.
