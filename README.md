@@ -129,8 +129,8 @@ Metode ini menjalankan server secara langsung di komputermu menggunakan Python v
 ## 📝 Lisensi
 
 MIT License
-
- ```Copyright (c) 2025 Dimas Tri M
+ ```
+Copyright (c) 2025 Dimas Tri M
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -151,7 +151,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  ```
 
----
 
 ## 👨‍💻 Kontributor
 
