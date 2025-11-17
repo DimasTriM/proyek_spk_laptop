@@ -2,11 +2,11 @@ Proyek SPK Pemilihan Laptop (Metode WP)
 
 Pratinjau tampilan UI
 
-![docs/images/screenshot-main.png]
+![](docs/images/screenshot-main.png)
 
 Pratinjau Rincian
 
-![docs/images/screenshot-rincian.png]
+![](docs/images/screenshot-rincian.png)
 
 
 Aplikasi web Sistem Pendukung Keputusan (SPK) untuk merekomendasikan laptop terbaik bagi mahasiswa informatika. Aplikasi ini dibangun menggunakan Python (Flask) sebagai backend, JavaScript (Fetch API) sebagai frontend, dan di-container-isasi menggunakan Docker.
